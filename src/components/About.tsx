@@ -20,12 +20,12 @@ export const About = () => {
             <img
               src="/lovable-uploads/16e60488-0995-4daa-8877-5ed03fd4d87f.png"
               alt="Интерьер кофейни"
-              className="rounded-lg w-full h-64 object-cover"
+              className="rounded-lg w-full h-64 object-cover transform transition-all duration-500 hover:scale-105 hover:shadow-xl"
             />
             <img
               src="/lovable-uploads/9e9e9602-2164-4786-bdf1-61a1eae2efe9.png"
               alt="Кофе"
-              className="rounded-lg w-full h-64 object-cover"
+              className="rounded-lg w-full h-64 object-cover transform transition-all duration-500 hover:scale-105 hover:shadow-xl"
             />
           </div>
         </div>

@@ -1,6 +1,13 @@
 import { Button } from "./ui/button";
 
 export const Hero = () => {
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <div className="relative min-h-screen bg-coffee-dark text-coffee-cream flex items-center">
       <div
@@ -24,6 +31,7 @@ export const Hero = () => {
             <Button
               size="lg"
               className="bg-coffee-cream text-coffee-dark hover:bg-coffee-light"
+              onClick={() => scrollToSection('menu')}
             >
               Посмотреть меню
             </Button>
@@ -31,6 +39,7 @@ export const Hero = () => {
               size="lg"
               variant="outline"
               className="border-coffee-cream text-coffee-cream hover:bg-coffee-cream hover:text-coffee-dark"
+              onClick={() => scrollToSection('about')}
             >
               О нас
             </Button>
