@@ -48,3 +48,31 @@
     @apply scroll-smooth;
   }
 }
+
+@keyframes fall {
+  0% {
+    transform: translateY(-100%) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+.menu-card {
+  @apply transition-all duration-300 hover:transform hover:scale-105 hover:shadow-xl;
+}
+
+.section-title {
+  @apply text-4xl font-bold text-coffee-cream text-center mb-12 relative;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.hover-glow {
+  @apply transition-all duration-300;
+}
+
+.hover-glow:hover {
+  filter: drop-shadow(0 0 8px rgba(212, 191, 176, 0.5));
+}
