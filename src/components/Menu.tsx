@@ -1,56 +1,93 @@
 import { useState } from "react";
 import { Button } from "./ui/button";
 import { Card } from "./ui/card";
-import { Coffee, Cake } from "lucide-react";
+import { Coffee } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface MenuItem {
   id: number;
   name: string;
-  price: number;
-  description: string;
-  category: "coffee" | "dessert";
+  sizes: {
+    size: string;
+    price: number;
+  }[];
+  description?: string;
 }
 
 const menuItems: MenuItem[] = [
   {
     id: 1,
-    name: "Капучино",
-    price: 180,
-    description: "Классический капучино с нежной молочной пенкой",
-    category: "coffee",
+    name: "Эспрессо",
+    sizes: [{ size: "200мл", price: 130 }],
   },
   {
     id: 2,
-    name: "Латте",
-    price: 200,
-    description: "Мягкий кофейный напиток с большим количеством молока",
-    category: "coffee",
+    name: "Американо",
+    sizes: [
+      { size: "200мл", price: 150 },
+      { size: "300мл", price: 170 },
+      { size: "400мл", price: 190 },
+    ],
   },
   {
     id: 3,
-    name: "Чизкейк",
-    price: 250,
-    description: "Нежный чизкейк с ягодным соусом",
-    category: "dessert",
+    name: "Капучино",
+    sizes: [
+      { size: "200мл", price: 170 },
+      { size: "300мл", price: 195 },
+      { size: "400мл", price: 215 },
+    ],
   },
   {
     id: 4,
-    name: "Круассан",
-    price: 180,
-    description: "Свежевыпеченный круассан с маслом",
-    category: "dessert",
+    name: "Латте",
+    sizes: [
+      { size: "300мл", price: 195 },
+      { size: "400мл", price: 215 },
+    ],
+  },
+  {
+    id: 5,
+    name: "Раф",
+    sizes: [
+      { size: "300мл", price: 200 },
+      { size: "400мл", price: 225 },
+    ],
+  },
+  {
+    id: 6,
+    name: "Латте Карамель/Ваниль",
+    sizes: [
+      { size: "300мл", price: 210 },
+      { size: "400мл", price: 230 },
+    ],
+  },
+  {
+    id: 7,
+    name: "Латте Мокко/Бельгийская вафля",
+    sizes: [
+      { size: "300мл", price: 215 },
+      { size: "400мл", price: 235 },
+    ],
+  },
+  {
+    id: 8,
+    name: "Раф Рафаэло/Черничный",
+    sizes: [
+      { size: "300мл", price: 220 },
+      { size: "400мл", price: 240 },
+    ],
   },
 ];
 
 export const Menu = () => {
-  const [activeCategory, setActiveCategory] = useState<"coffee" | "dessert">("coffee");
+  const [selectedSize, setSelectedSize] = useState<{ [key: number]: string }>({});
   const { toast } = useToast();
 
-  const addToCart = (item: MenuItem) => {
+  const addToCart = (item: MenuItem, size: string) => {
     toast({
       title: "Добавлено в корзину",
-      description: `${item.name} добавлен в корзину`,
+      description: `${item.name} (${size}) добавлен в корзину`,
     });
   };
 
@@ -63,52 +100,45 @@ export const Menu = () => {
 
         <div className="flex justify-center gap-4 mb-12">
           <Button
-            variant={activeCategory === "coffee" ? "default" : "outline"}
-            onClick={() => setActiveCategory("coffee")}
-            className={`${
-              activeCategory === "coffee"
-                ? "bg-coffee-cream text-coffee-dark"
-                : "border-coffee-cream text-coffee-cream"
-            } hover:bg-coffee-light`}
+            className="bg-coffee-cream text-coffee-dark hover:bg-coffee-light"
           >
             <Coffee className="mr-2" />
             Кофе
           </Button>
-          <Button
-            variant={activeCategory === "dessert" ? "default" : "outline"}
-            onClick={() => setActiveCategory("dessert")}
-            className={`${
-              activeCategory === "dessert"
-                ? "bg-coffee-cream text-coffee-dark"
-                : "border-coffee-cream text-coffee-cream"
-            } hover:bg-coffee-light`}
-          >
-            <Cake className="mr-2" />
-            Десерты
-          </Button>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {menuItems
-            .filter((item) => item.category === activeCategory)
-            .map((item) => (
-              <Card
-                key={item.id}
-                className="bg-coffee/10 border-coffee-light text-coffee-cream p-6 hover:scale-105 transition-transform duration-300"
-              >
-                <h3 className="text-xl font-semibold mb-2">{item.name}</h3>
-                <p className="text-coffee-cream/80 mb-4">{item.description}</p>
-                <div className="flex justify-between items-center">
-                  <span className="text-lg font-bold">{item.price} ₽</span>
-                  <Button
-                    onClick={() => addToCart(item)}
-                    className="bg-coffee-cream text-coffee-dark hover:bg-coffee-light"
+          {menuItems.map((item) => (
+            <Card
+              key={item.id}
+              className="bg-coffee/10 border-coffee-light text-coffee-cream p-6 hover:scale-105 transition-transform duration-300"
+            >
+              <h3 className="text-xl font-semibold mb-4">{item.name}</h3>
+              <div className="space-y-4">
+                {item.sizes.map((sizeOption) => (
+                  <div
+                    key={`${item.id}-${sizeOption.size}`}
+                    className="flex justify-between items-center"
                   >
-                    В корзину
-                  </Button>
-                </div>
-              </Card>
-            ))}
+                    <span className="text-coffee-cream/80">
+                      {sizeOption.size}
+                    </span>
+                    <div className="flex items-center gap-4">
+                      <span className="text-lg font-bold">
+                        {sizeOption.price} ₽
+                      </span>
+                      <Button
+                        onClick={() => addToCart(item, sizeOption.size)}
+                        className="bg-coffee-cream text-coffee-dark hover:bg-coffee-light"
+                      >
+                        В корзину
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </Card>
+          ))}
         </div>
       </div>
     </section>
