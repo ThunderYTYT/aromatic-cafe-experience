@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { Button } from "./ui/button";
 import { Card } from "./ui/card";
 import { Coffee } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { Button } from "./ui/button";
 
 interface MenuItem {
   id: number;
@@ -81,16 +80,6 @@ const menuItems: MenuItem[] = [
 ];
 
 export const Menu = () => {
-  const [selectedSize, setSelectedSize] = useState<{ [key: number]: string }>({});
-  const { toast } = useToast();
-
-  const addToCart = (item: MenuItem, size: string) => {
-    toast({
-      title: "Добавлено в корзину",
-      description: `${item.name} (${size}) добавлен в корзину`,
-    });
-  };
-
   return (
     <section id="menu" className="py-20 bg-coffee-dark">
       <div className="container mx-auto px-4">
@@ -123,17 +112,9 @@ export const Menu = () => {
                     <span className="text-coffee-cream/80">
                       {sizeOption.size}
                     </span>
-                    <div className="flex items-center gap-4">
-                      <span className="text-lg font-bold">
-                        {sizeOption.price} ₽
-                      </span>
-                      <Button
-                        onClick={() => addToCart(item, sizeOption.size)}
-                        className="bg-coffee-cream text-coffee-dark hover:bg-coffee-light"
-                      >
-                        В корзину
-                      </Button>
-                    </div>
+                    <span className="text-lg font-bold">
+                      {sizeOption.price} ₽
+                    </span>
                   </div>
                 ))}
               </div>
